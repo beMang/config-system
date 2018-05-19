@@ -25,9 +25,9 @@ class Config implements ConfigInterface
             if (is_array($key)) {
                 Config::$definitions = array_merge(Config::$definitions, $key);
             } else {
-                throw new InvalidArgumentExceptionConfig();
+                throw new InvalidArgumentExceptionConfig('Valeur invalide lors du define');
             }
-        } elseif (is_string($value) && !empty($value)) {
+        } elseif (is_string($key) && !empty($value)) {
             Config::$definitions[$key] = $value;
         } else {
             throw new InvalidArgumentExceptionConfig('$key doit être un fichier ou un tableau, 

@@ -1,0 +1,17 @@
+{
+    "name": "bemang/config-system",
+    "description": "Syst\u0000me de configuration pour php.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [{
+        "name": "beMang",
+        "email": "antonuttiadrien@gmail.com"
+    }],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "beMang\\Config": "src"
+        }
+    }
+}

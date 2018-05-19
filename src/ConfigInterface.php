@@ -1,6 +1,6 @@
 <?php
 
-namespace beMang\Config;
+namespace bemang;
 
 interface ConfigInterface
 {

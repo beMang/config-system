@@ -1,6 +1,6 @@
 <?php
 
-namespace bemang\Core;
+namespace bemang;
 
 class Config
 {

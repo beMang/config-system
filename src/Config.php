@@ -43,22 +43,23 @@ class Config implements ConfigInterface
     public static function has($key)
     {
         if (!empty($key)) {
+            $key = (string) $key;
             return !empty(Config::$definitions[$key]);
         } else {
-            throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être vérifiée (' . $key . ')');
+            throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être vérifiée');
         }
     }
 
     public static function delete($key)
     {
         if (!empty($key)) {
-            if (Config::$has($key)) {
+            if (Config::has($key)) {
                 unset(Config::$definitions[$key]);
             } else {
                 throw new ConfigException('La clé ' . $key . 'n\'est pas définie');
             }
         } else {
-            throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être supprimée (' . $key . ')');
+            throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être supprimée');
         }
     }
 }

@@ -51,4 +51,16 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('salut', Config::get('test1'));
     }
+
+    public function testHasWithEmptyKey()
+    {
+        $this->expectExceptionMessage('Une clé vide ne peut pas être vérifiée');
+        Config::has('');
+    }
+
+    public function testDeleteWithEmptyKey()
+    {
+        $this->expectExceptionMessage('Une clé vide ne peut pas être supprimée');
+        Config::delete('');
+    }
 }

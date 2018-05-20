@@ -6,6 +6,11 @@ class Config implements ConfigInterface
 {
     protected static $definitions = [];
 
+    public static function getDefinitions()
+    {
+        return Config::$definitions;
+    }
+    
     public static function get($key)
     {
         if (!empty($key) && is_string($key)) {

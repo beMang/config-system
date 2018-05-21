@@ -4,18 +4,32 @@ namespace bemang;
 
 class Config implements ConfigInterface
 {
-    protected static $definitions = [];
+    protected $definitions = [];
+    protected static $selfInstance;
 
-    public static function getDefinitions()
+    public static function getInstance()
     {
-        return Config::$definitions;
+        if (is_null(Config::$selfInstance) || !Config::$selfInstance instanceof Config) {
+            Config::$selfInstance = new Config();
+        }
+        return Config::$selfInstance;
+    }
+
+    public static function getEmptyInstance()
+    {
+        return new Config();
+    }
+
+    public function getDefinitions()
+    {
+        return $this->definitions;
     }
     
-    public static function get($key)
+    public function get($key)
     {
         if (!empty($key) && is_string($key)) {
             if (Config::has($key)) {
-                return Config::$definitions[$key];
+                return $this->definitions[$key];
             } else {
                 throw new ConfigException('La clé ' . $key . ' n\'est pas définie');
             }
@@ -24,37 +38,37 @@ class Config implements ConfigInterface
         }
     }
 
-    public static function define($key, $value = null)
+    public function define($key, $value = null)
     {
         if ($value === null) {
             if (is_array($key)) {
-                Config::$definitions = array_merge(Config::$definitions, $key);
+                $this->definitions = array_merge($this->definitions, $key);
             } else {
                 throw new InvalidArgumentExceptionConfig('Valeur invalide lors du define');
             }
         } elseif (is_string($key) && !empty($value)) {
-            Config::$definitions[$key] = $value;
+            $this->definitions[$key] = $value;
         } else {
             throw new InvalidArgumentExceptionConfig('$key doit être un fichier ou un tableau, 
             ou $key doit être une chaine de caractères avec l\'argument $value non vide');
         }
     }
 
-    public static function has($key)
+    public function has($key)
     {
         if (!empty($key)) {
             $key = (string) $key;
-            return !empty(Config::$definitions[$key]);
+            return !empty($this->definitions[$key]);
         } else {
             throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être vérifiée');
         }
     }
 
-    public static function delete($key)
+    public function delete($key)
     {
         if (!empty($key)) {
             if (Config::has($key)) {
-                unset(Config::$definitions[$key]);
+                unset($this->definitions[$key]);
             } else {
                 throw new ConfigException('La clé ' . $key . 'n\'est pas définie');
             }

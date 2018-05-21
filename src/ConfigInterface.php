@@ -4,11 +4,13 @@ namespace bemang;
 
 interface ConfigInterface
 {
-    public static function define($key, $value = null);
+    public static function getInstance();
 
-    public static function get($key);
+    public function define($key, $value = null);
 
-    public static function has($key);
+    public function get($key);
 
-    public static function delete($key);
+    public function has($key);
+
+    public function delete($key);
 }

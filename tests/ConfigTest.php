@@ -6,61 +6,92 @@ use bemang\Config;
 
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
-    
+    protected $configInstance;
+
+    public function setUp()
+    {
+        $this->configInstance = Config::getInstance();
+    }
+
+    public function testGetInstance()
+    {
+        $this->configInstance = Config::getInstance();
+        $this->assertInstanceOf(Config::class, $this->configInstance);
+    }
+
+    public function testGetEmptyInstance()
+    {
+        $instance = Config::getEmptyInstance();
+        $this->assertEmpty($instance->getDefinitions());
+    }
+
     public function testDefineWithOnedValue()
     {
         $this->expectExceptionMessage('Valeur invalide lors du define');
-        Config::define('bonjour');
+        $this->configInstance->define('bonjour');
     }
 
     public function testDefineWithInvalidParameters()
     {
         $this->expectExceptionMessage('$key doit être un fichier ou un tableau, 
             ou $key doit être une chaine de caractères avec l\'argument $value non vide');
-        Config::define(123, 'salut');
+        $this->configInstance->define(123, 'salut');
     }
 
     public function testDefine()
     {
-        Config::define('test1', 'salut');
-        Config::define('test2', 'writing test');
-        Config::define(['test3' => 'Les tests marchent ?', 'test4' => 'phpunit it is cool for writing tests']);
+        $this->configInstance->define('test1', 'salut');
+        $this->configInstance->define('test2', 'writing test');
+        $this->configInstance->define(['test3' => 'Les tests marchent ?', 'test4' => 'phpunit it is cool for writing tests']);
         $this->assertEquals([
             'test1' => 'salut',
             'test2' => 'writing test',
             'test3' => 'Les tests marchent ?',
             'test4' => 'phpunit it is cool for writing tests',
-        ], Config::getDefinitions());
+        ], $this->configInstance->getDefinitions());
     }
 
     public function testGetWithNonString()
     {
         $this->expectExceptionMessage('La clé ' . 123 . ' est invalide');
-        Config::get(123);
-        Config::get(['test1', 'test2']);
+        $this->configInstance->get(123);
+        $this->configInstance->get(['test1', 'test2']);
     }
 
     public function testGetWithNotDefinedKey(Type $var = null)
     {
         $key = md5(uniqid());
         $this->expectExceptionMessage('La clé ' . $key . ' n\'est pas définie');
-        Config::get($key);
+        $this->configInstance->get($key);
     }
 
     public function testGet()
     {
-        $this->assertEquals('salut', Config::get('test1'));
+        $this->assertEquals('salut', $this->configInstance->get('test1'));
     }
 
     public function testHasWithEmptyKey()
     {
         $this->expectExceptionMessage('Une clé vide ne peut pas être vérifiée');
-        Config::has('');
+        $this->configInstance->has('');
     }
 
     public function testDeleteWithEmptyKey()
     {
         $this->expectExceptionMessage('Une clé vide ne peut pas être supprimée');
-        Config::delete('');
+        $this->configInstance->delete('');
+    }
+
+    public function testDeleteNotDefinedKey()
+    {
+        $key = uniqid();
+        $this->expectExceptionMessage('La clé ' . $key . 'n\'est pas définie');
+        $this->configInstance->delete($key);
+    }
+
+    public function testDelete()
+    {
+        $this->configInstance->delete('test2');
+        $this->assertArrayNotHasKey('test2', $this->configInstance->getDefinitions());
     }
 }

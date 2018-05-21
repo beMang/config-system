@@ -2,7 +2,7 @@
 
 namespace Test;
 
-use bemang\Config;
+use \bemang\Config;
 
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
@@ -10,6 +10,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
+        require(__DIR__ . '/../vendor/autoload.php');
         $this->configInstance = Config::getInstance();
     }
 

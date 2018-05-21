@@ -2,6 +2,10 @@
 
 namespace bemang;
 
+/**
+ * Class permettant de faire une configuration simple
+ * @see ConfigInterface::class Documentation
+ */
 class Config implements ConfigInterface
 {
     protected $definitions = [];
@@ -15,11 +19,21 @@ class Config implements ConfigInterface
         return Config::$selfInstance;
     }
 
+    /**
+     * Récupère une instance vide de Coonfig
+     *
+     * @return Config
+     */
     public static function getEmptyInstance()
     {
         return new Config();
     }
 
+    /**
+     * Récupère toutes les définitions de la configuration
+     *
+     * @return array
+     */
     public function getDefinitions()
     {
         return $this->definitions;

@@ -14,7 +14,7 @@
             "bemang\\": "src"
         }
     },
-    "require-dev": {
+    "suggest": {
         "phpunit/phpunit": "^6.5"
     }
 }

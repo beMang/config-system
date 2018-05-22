@@ -11,6 +11,13 @@ class Config implements ConfigInterface
     protected $definitions = [];
     protected static $selfInstance;
 
+    public function __construct(array $baseConfig = null)
+    {
+        if (!is_null($baseConfig)) {
+            $this->define($baseConfig);
+        }
+    }
+
     public static function getInstance()
     {
         if (is_null(Config::$selfInstance) || !Config::$selfInstance instanceof Config) {
@@ -24,9 +31,14 @@ class Config implements ConfigInterface
      *
      * @return Config
      */
-    public static function getEmptyInstance()
+    public static function getEmptyInstance(array $baseConfig = null)
     {
-        return new Config();
+        if (!is_null($baseConfig)) {
+            $config = new Config($baseConfig);
+        } else {
+            $config = new Config();
+        }
+        return $config;
     }
 
     /**
@@ -56,7 +68,11 @@ class Config implements ConfigInterface
     {
         if ($value === null) {
             if (is_array($key)) {
-                $this->definitions = array_merge($this->definitions, $key);
+                if ($this->arrayIsValidForConfig($key) === true) {
+                    $this->definitions = array_merge($this->definitions, $key);
+                } else {
+                    throw new ConfigException('Le tableau est invalide pour la configuration');
+                }
             } else {
                 throw new InvalidArgumentExceptionConfig('Valeur invalide lors du define');
             }
@@ -89,5 +105,17 @@ class Config implements ConfigInterface
         } else {
             throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être supprimée');
         }
+    }
+
+    public function arrayIsValidForConfig(array $array)
+    {
+        $keys = array_keys($array);
+        $valid = true;
+        foreach ($keys as $key) {
+            if (!is_string($key) || empty($array[$key])) {
+                $valid = false;
+            }
+        }
+        return $valid;
     }
 }

@@ -10,7 +10,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        require(__DIR__ . '/../vendor/autoload.php');
+        require_once(__DIR__ . '/../vendor/autoload.php');
         $this->configInstance = Config::getInstance();
     }
 
@@ -20,10 +20,26 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Config::class, $this->configInstance);
     }
 
+    public function testConstructWithBaseConfig()
+    {
+        $array = [
+            'test1' => '123',
+            'test2' => 'hello'
+        ];
+        $config = new Config($array);
+        $this->assertEquals($array, $config->getDefinitions());
+    }
+
     public function testGetEmptyInstance()
     {
         $instance = Config::getEmptyInstance();
         $this->assertEmpty($instance->getDefinitions());
+        $array = [
+            'test1' => '123',
+            'test2' => 'hello'
+        ];
+        $config = Config::getEmptyInstance($array);
+        $this->assertEquals($array, $config->getDefinitions());
     }
 
     public function testDefineWithOnedValue()
@@ -37,6 +53,16 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('$key doit être un fichier ou un tableau, 
             ou $key doit être une chaine de caractères avec l\'argument $value non vide');
         $this->configInstance->define(123, 'salut');
+    }
+
+    public function testDefineWithInvalidArray()
+    {
+        $array = [
+            123 => ['hello'],
+            'hello' => 123,
+        ];
+        $this->expectExceptionMessage('Le tableau est invalide pour la configuration');
+        $this->configInstance->define($array);
     }
 
     public function testDefine()

@@ -12,16 +12,16 @@ interface ConfigInterface
      *
      * @return Config
      */
-    public static function getInstance();
+    public static function getInstance() :Config;
 
     /**
      * Défini une clé sur la config
      *
      * @param string|array $key String pour le nom de la clé ou tableau associatif pour l'ajouter à la config
      * @param mixin $value Si $key est un string, $value est la valeur à associer )à $key
-     * @return InvalidArgumentExceptionConfig|void
+     * @return bool
      */
-    public function define($key, $value = null);
+    public function define($key, $value = null) :bool;
 
     /**
      * Récupère une clé
@@ -37,13 +37,13 @@ interface ConfigInterface
      * @param string $key Clé à vérifier
      * @return boolean
      */
-    public function has($key);
+    public function has($key) :bool;
 
     /**
      * Supprime une clé
      *
      * @param string $key Clé à supprimer
-     * @return void|ConfigException|InvalidArgumentExceptionConfig Résultat
+     * @return bool Résultat
      */
-    public function delete($key);
+    public function delete($key) :bool;
 }

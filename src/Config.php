@@ -18,6 +18,11 @@ class Config implements ConfigInterface
         }
     }
 
+    /**
+     * Récupère une l'instance courante (ne change pas)
+     *
+     * @return Config
+     */
     public static function getInstance() :Config
     {
         if (is_null(Config::$selfInstance) || !Config::$selfInstance instanceof Config) {

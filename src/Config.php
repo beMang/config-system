@@ -107,11 +107,10 @@ class Config implements ConfigInterface
         }
     }
 
-    public function arrayIsValidForConfig(array $array)
+    public function arrayIsValidForConfig(array $array) :bool
     {
-        $keys = array_keys($array);
         $valid = true;
-        foreach ($keys as $key) {
+        foreach ($array as $key => $value) {
             if (!is_string($key) || empty($array[$key])) {
                 $valid = false;
             }

@@ -125,7 +125,7 @@ class Config implements ConfigInterface
     {
         $valid = true;
         foreach ($array as $key => $value) {
-            if (!is_string($key) || empty($array[$key])) {
+            if (!is_string($key)) {
                 $valid = false;
             }
         }

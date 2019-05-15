@@ -11,6 +11,7 @@ matrix:
 install:
   - composer install
   - composer dump -o
+  - composer require phpunit/phpunit
 
 cache:
   directories:

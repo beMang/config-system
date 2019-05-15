@@ -50,8 +50,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function testDefineWithInvalidParameters()
     {
-        $this->expectExceptionMessage('$key doit être un fichier ou un tableau, 
-            ou $key doit être une chaine de caractères avec l\'argument $value non vide');
+        $this->expectExceptionMessage('$key invalide (array ou string obligatoire)');
         $this->configInstance->define(123, 'salut');
     }
 

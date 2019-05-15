@@ -88,8 +88,7 @@ class Config implements ConfigInterface
             $this->definitions[$key] = $value;
             return true;
         } else {
-            throw new InvalidArgumentExceptionConfig('$key doit être un fichier ou un tableau, 
-            ou $key doit être une chaine de caractères avec l\'argument $value non vide');
+            throw new InvalidArgumentExceptionConfig('$key invalide (array ou string obligatoire)');
             return false;
         }
     }

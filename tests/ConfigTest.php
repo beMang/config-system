@@ -8,7 +8,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 {
     protected $configInstance;
 
-    public function setUp()
+    public function setUp() :void
     {
         require_once(__DIR__ . '/../vendor/autoload.php');
         $this->configInstance = Config::getInstance();
@@ -50,8 +50,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function testDefineWithInvalidParameters()
     {
-        $this->expectExceptionMessage('$key doit être un fichier ou un tableau, 
-            ou $key doit être une chaine de caractères avec l\'argument $value non vide');
+        $this->expectExceptionMessage('$key invalide (array ou string obligatoire)');
         $this->configInstance->define(123, 'salut');
     }
 

@@ -18,7 +18,7 @@ cache:
   - vendor
 
 script:
-  - phpunit --coverage-clover build/logs/clover.xml
+  - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
   - composer require php-coveralls/php-coveralls

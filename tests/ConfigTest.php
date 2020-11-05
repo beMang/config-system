@@ -68,7 +68,10 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     {
         $this->configInstance->define('test1', 'salut');
         $this->configInstance->define('test2', 'writing test');
-        $this->configInstance->define(['test3' => 'Les tests marchent ?', 'test4' => 'phpunit it is cool for writing tests']);
+        $this->configInstance->define([
+            'test3' => 'Les tests marchent ?',
+            'test4' => 'phpunit it is cool for writing tests'
+        ]);
         $this->assertEquals([
             'test1' => 'salut',
             'test2' => 'writing test',

@@ -23,7 +23,7 @@ class Config implements ConfigInterface
      *
      * @return Config
      */
-    public static function getInstance() :Config
+    public static function getInstance(): Config
     {
         if (is_null(Config::$selfInstance) || !Config::$selfInstance instanceof Config) {
             Config::$selfInstance = new Config();
@@ -36,7 +36,7 @@ class Config implements ConfigInterface
      *
      * @return Config
      */
-    public static function getEmptyInstance(array $baseConfig = null) :Config
+    public static function getEmptyInstance(array $baseConfig = null): Config
     {
         if (!is_null($baseConfig)) {
             $config = new Config($baseConfig);
@@ -51,15 +51,15 @@ class Config implements ConfigInterface
      *
      * @return array
      */
-    public function getDefinitions() :array
+    public function getDefinitions(): array
     {
         return $this->definitions;
     }
-    
+
     public function get($key)
     {
         if (!empty($key) && is_string($key)) {
-            if (Config::has($key)) {
+            if ($this->has($key)) {
                 return $this->definitions[$key];
             } else {
                 throw new ConfigException('La clé ' . $key . ' n\'est pas définie');
@@ -69,7 +69,7 @@ class Config implements ConfigInterface
         }
     }
 
-    public function define($key, $value = null) :bool
+    public function define($key, $value = null): bool
     {
         if ($value === null) {
             if (is_array($key)) {
@@ -93,7 +93,7 @@ class Config implements ConfigInterface
         }
     }
 
-    public function has($key) :bool
+    public function has($key): bool
     {
         if (!empty($key)) {
             $key = (string) $key;
@@ -104,10 +104,10 @@ class Config implements ConfigInterface
         }
     }
 
-    public function delete($key) :bool
+    public function delete($key): bool
     {
         if (!empty($key)) {
-            if (Config::has($key)) {
+            if ($this->has($key)) {
                 unset($this->definitions[$key]);
                 return true;
             } else {
@@ -120,7 +120,7 @@ class Config implements ConfigInterface
         }
     }
 
-    public function arrayIsValidForConfig(array $array) :bool
+    public function arrayIsValidForConfig(array $array): bool
     {
         $valid = true;
         foreach ($array as $key => $value) {

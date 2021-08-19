@@ -12,7 +12,7 @@ interface ConfigInterface
      *
      * @return Config
      */
-    public static function getInstance() :Config;
+    public static function getInstance(): Config;
 
     /**
      * Défini une clé sur la config
@@ -21,7 +21,7 @@ interface ConfigInterface
      * @param mixin $value Si $key est un string, $value est la valeur à associer )à $key
      * @return bool
      */
-    public function define($key, $value = null) :bool;
+    public function define($key, $value = null): bool;
 
     /**
      * Récupère une clé
@@ -37,7 +37,7 @@ interface ConfigInterface
      * @param string $key Clé à vérifier
      * @return boolean
      */
-    public function has($key) :bool;
+    public function has($key): bool;
 
     /**
      * Supprime une clé
@@ -45,5 +45,5 @@ interface ConfigInterface
      * @param string $key Clé à supprimer
      * @return bool Résultat
      */
-    public function delete($key) :bool;
+    public function delete($key): bool;
 }

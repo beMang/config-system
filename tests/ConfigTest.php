@@ -6,7 +6,7 @@ use bemang\Config;
 
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
-    protected $configInstance;
+    protected Config $configInstance;
 
     public function setUp(): void
     {

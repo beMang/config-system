@@ -26,7 +26,3 @@ require('vendor/autoload.php');
 
     $config->delete('test'); //Delete a key
 ```
-
-## TODO
-* Tous mettre en statique pour ne plus avoir à créer l'instance à chaque fois
-* Pour une version 2.0

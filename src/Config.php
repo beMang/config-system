@@ -8,9 +8,18 @@ namespace bemang;
  */
 class Config implements ConfigInterface
 {
-    protected $definitions = [];
-    protected static $selfInstance;
+    /**
+     * @var array
+     */
+    protected array $definitions = [];
 
+    private static $selfInstance;
+
+    /**
+     * @param array|null $baseConfig
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
     public function __construct(array $baseConfig = null)
     {
         if (!is_null($baseConfig)) {
@@ -32,9 +41,12 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Récupère une instance vide de Coonfig
+     * Récupère une instance vide de Config
      *
+     * @param array|null $baseConfig
      * @return Config
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
      */
     public static function getEmptyInstance(array $baseConfig = null): Config
     {
@@ -56,7 +68,13 @@ class Config implements ConfigInterface
         return $this->definitions;
     }
 
-    public function get($key)
+    /**
+     * @param $key
+     * @return mixed
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
+    public function get($key): mixed
     {
         if (!empty($key) && is_string($key)) {
             if ($this->has($key)) {
@@ -69,6 +87,13 @@ class Config implements ConfigInterface
         }
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return bool
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
     public function define($key, $value = null): bool
     {
         if ($value === null) {
@@ -78,21 +103,23 @@ class Config implements ConfigInterface
                     return true;
                 } else {
                     throw new ConfigException('Le tableau est invalide pour la configuration');
-                    return false;
                 }
             } else {
                 throw new InvalidArgumentExceptionConfig('Valeur invalide lors du define');
-                return false;
             }
         } elseif (is_string($key) && !empty($value)) {
             $this->definitions[$key] = $value;
             return true;
         } else {
             throw new InvalidArgumentExceptionConfig('$key invalide (array ou string obligatoire)');
-            return false;
         }
     }
 
+    /**
+     * @param $key
+     * @return bool
+     * @throws InvalidArgumentExceptionConfig
+     */
     public function has($key): bool
     {
         if (!empty($key)) {
@@ -100,10 +127,15 @@ class Config implements ConfigInterface
             return !empty($this->definitions[$key]);
         } else {
             throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être vérifiée');
-            return false;
         }
     }
 
+    /**
+     * @param $key
+     * @return bool
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
     public function delete($key): bool
     {
         if (!empty($key)) {
@@ -112,14 +144,16 @@ class Config implements ConfigInterface
                 return true;
             } else {
                 throw new ConfigException('La clé ' . $key . 'n\'est pas définie');
-                return false;
             }
         } else {
             throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être supprimée');
-            return false;
         }
     }
 
+    /**
+     * @param array $array
+     * @return bool
+     */
     public function arrayIsValidForConfig(array $array): bool
     {
         $valid = true;

@@ -1,6 +1,6 @@
 {
     "name": "bemang/config-system",
-    "description": "Syst\u0000me de configuration pour php.",
+    "description": "Systeme de configuration pour php.",
     "type": "library",
     "license": "MIT",
     "authors": [{
@@ -15,6 +15,6 @@
         }
     },
     "suggest": {
-        "phpunit/phpunit": "^8"
+        "phpunit/phpunit": "^10"
     }
 }

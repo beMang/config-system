@@ -8,9 +8,18 @@ namespace bemang;
  */
 class Config implements ConfigInterface
 {
-    protected $definitions = [];
-    protected static $selfInstance;
+    /**
+     * @var array
+     */
+    protected array $definitions = [];
 
+    private static $selfInstance;
+
+    /**
+     * @param array|null $baseConfig
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
     public function __construct(array $baseConfig = null)
     {
         if (!is_null($baseConfig)) {
@@ -23,7 +32,7 @@ class Config implements ConfigInterface
      *
      * @return Config
      */
-    public static function getInstance() :Config
+    public static function getInstance(): Config
     {
         if (is_null(Config::$selfInstance) || !Config::$selfInstance instanceof Config) {
             Config::$selfInstance = new Config();
@@ -32,11 +41,14 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Récupère une instance vide de Coonfig
+     * Récupère une instance vide de Config
      *
+     * @param array|null $baseConfig
      * @return Config
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
      */
-    public static function getEmptyInstance(array $baseConfig = null) :Config
+    public static function getEmptyInstance(array $baseConfig = null): Config
     {
         if (!is_null($baseConfig)) {
             $config = new Config($baseConfig);
@@ -51,15 +63,21 @@ class Config implements ConfigInterface
      *
      * @return array
      */
-    public function getDefinitions() :array
+    public function getDefinitions(): array
     {
         return $this->definitions;
     }
-    
-    public function get($key)
+
+    /**
+     * @param $key
+     * @return mixed
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
+    public function get($key): mixed
     {
         if (!empty($key) && is_string($key)) {
-            if (Config::has($key)) {
+            if ($this->has($key)) {
                 return $this->definitions[$key];
             } else {
                 throw new ConfigException('La clé ' . $key . ' n\'est pas définie');
@@ -69,7 +87,14 @@ class Config implements ConfigInterface
         }
     }
 
-    public function define($key, $value = null) :bool
+    /**
+     * @param $key
+     * @param $value
+     * @return bool
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
+    public function define($key, $value = null): bool
     {
         if ($value === null) {
             if (is_array($key)) {
@@ -78,49 +103,58 @@ class Config implements ConfigInterface
                     return true;
                 } else {
                     throw new ConfigException('Le tableau est invalide pour la configuration');
-                    return false;
                 }
             } else {
                 throw new InvalidArgumentExceptionConfig('Valeur invalide lors du define');
-                return false;
             }
         } elseif (is_string($key) && !empty($value)) {
             $this->definitions[$key] = $value;
             return true;
         } else {
             throw new InvalidArgumentExceptionConfig('$key invalide (array ou string obligatoire)');
-            return false;
         }
     }
 
-    public function has($key) :bool
+    /**
+     * @param $key
+     * @return bool
+     * @throws InvalidArgumentExceptionConfig
+     */
+    public function has($key): bool
     {
         if (!empty($key)) {
             $key = (string) $key;
             return !empty($this->definitions[$key]);
         } else {
             throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être vérifiée');
-            return false;
         }
     }
 
-    public function delete($key) :bool
+    /**
+     * @param $key
+     * @return bool
+     * @throws ConfigException
+     * @throws InvalidArgumentExceptionConfig
+     */
+    public function delete($key): bool
     {
         if (!empty($key)) {
-            if (Config::has($key)) {
+            if ($this->has($key)) {
                 unset($this->definitions[$key]);
                 return true;
             } else {
                 throw new ConfigException('La clé ' . $key . 'n\'est pas définie');
-                return false;
             }
         } else {
             throw new InvalidArgumentExceptionConfig('Une clé vide ne peut pas être supprimée');
-            return false;
         }
     }
 
-    public function arrayIsValidForConfig(array $array) :bool
+    /**
+     * @param array $array
+     * @return bool
+     */
+    public function arrayIsValidForConfig(array $array): bool
     {
         $valid = true;
         foreach ($array as $key => $value) {
